@@ -62,7 +62,7 @@ class Header extends Component{
                             ></NavSearch>
                         </CSSTransition>
                         <span className={focused?'focused iconfont zoom':'iconfont zoom'}>&#xe637;</span>
-                        {this.getListArea()}
+                        {this.getListArea  ()}
                     </SearchWrapper>
                 </Nav>
                 <Addition>
