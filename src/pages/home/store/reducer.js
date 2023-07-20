@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable'
-import {CHANGE_HOME_DATA,ADD_ARTICLE_LIST} from "./constants";
+import {CHANGE_HOME_DATA, ADD_ARTICLE_LIST, TOGGLE_SCROLL_TOP} from "./constants";
 
 const defaultState = fromJS({
     topicList: [],
@@ -7,6 +7,7 @@ const defaultState = fromJS({
     articleList: [],
     writerList: [],
     articlePage: 1,
+    showScroll: false
 })
 
 export default (state = defaultState, action) => {
@@ -22,8 +23,11 @@ export default (state = defaultState, action) => {
             return state.merge({
                 articlePage: action.nextPage,
                 articleList: state.get('articleList').concat(action.list)
-            })
+            });
+        case TOGGLE_SCROLL_TOP:
+            return state.set('showScroll', action.show)
         default:
-            return state
+            return state;
+
     }
 }

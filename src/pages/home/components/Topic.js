@@ -1,8 +1,8 @@
-import { react, Component} from "react";
+import { react, PureComponent} from "react";
 import {TopicItem, TopicWrapper} from "../style";
 import { connect } from "react-redux";
 
-class Topic extends Component{
+class Topic extends PureComponent{
     render() {
         const {list} = this.props
         return(

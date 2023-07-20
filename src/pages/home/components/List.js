@@ -1,26 +1,37 @@
-import {react, Component} from "react";
+import {react, PureComponent} from "react";
 import {ListItem, ListInfo,LoadMore} from "../style";
 import {connect} from "react-redux";
 import * as actionCreators from "../store/actionCreator"
+import {Link} from "react-router-dom";
 
-class List extends Component {
-
+class List extends PureComponent {
     render() {
         const {list,getMoreList,page} = this.props
         return (
             <div>
                 {
-                    list.map(item => {
+                    list.map((item, index) => {
                         return (
-                            <ListItem key={item.get('id')}>
-                                <img className='pic' src={item.get('imgUrl')}/>
-                                <ListInfo>
-                                    <span className='title'>{item.get('title')}</span>
-                                    <p className='desc'>
-                                        {item.get('desc')}
-                                    </p>
-                                </ListInfo>
-                            </ListItem>
+                            // <Link to={{
+                            //     pathname: '/detail',
+                            //     search: "?sort=name",
+                            //     hash: "#the-hash",
+                            //     state: {
+                            //         id: 1
+                            //     }
+                            // }}  key={index}>
+                            // <Link to={{ pathname: '/detail', state: { id: item.get('imgUrl') }}}  key={index}>?
+                            <Link to={ '/detail/' + item.get('id') }  key={index}>
+                                <ListItem>
+                                    <img className='pic' src={item.get('imgUrl')}/>
+                                    <ListInfo>
+                                        <span className='title'>{item.get('title')}</span>
+                                        <p className='desc'>
+                                            {item.get('desc')}
+                                        </p>
+                                    </ListInfo>
+                                </ListItem>
+                            </Link>
                         )
                     })
                 }

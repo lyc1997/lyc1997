@@ -1,5 +1,5 @@
 import axios from "axios";
-import {CHANGE_HOME_DATA,ADD_ARTICLE_LIST} from "./constants";
+import {CHANGE_HOME_DATA,ADD_ARTICLE_LIST,TOGGLE_SCROLL_TOP} from "./constants";
 import { fromJS } from 'immutable'
 
 const changeInfoAction = (result)=>{
@@ -43,3 +43,7 @@ export const getMoreData = (page)=>{
         })
     }
 }
+export const toggleTopShow = (show)=>({
+    type: TOGGLE_SCROLL_TOP,
+    show
+})

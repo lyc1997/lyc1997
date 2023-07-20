@@ -1,10 +1,12 @@
-import react,{Component} from 'react'
+import react,{PureComponent} from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 import { HeaderWrapper, Logo, Nav,NavItem,NavSearch, Addition, Button,SearchWrapper,SearchInfo,SearchInfoTitle,SearchInfoSwitch,SearchInfoItem,SearchInfoList } from './style'
 import { actionCreators } from './store'
+import {Link} from "react-router-dom";
+import {logout} from "../../pages/login/store/actionCreator";
 
-class Header extends Component{
+class Header extends PureComponent{
     getListArea = () => {
         const { focused, mouseIn, totalPage,list ,page, handleChangePage, handleMouseEnter, handleMouseLeave} = this.props
         const newList = list.toJS();
@@ -38,14 +40,18 @@ class Header extends Component{
         }
     }
     render() {
-        const { list, focused, handleInputFocus, handleInputBlur} = this.props
+        const { list, focused, handleInputFocus, handleInputBlur, login, logout } = this.props
         return (
             <HeaderWrapper>
-                <Logo></Logo>
+                <Link to='/'>
+                    <Logo/>
+                </Link>
                 <Nav>
                     <NavItem className='left active'>首页</NavItem>
                     <NavItem className='left'>下载APP</NavItem>
-                    <NavItem className='right'>登录</NavItem>
+                    {
+                        login ? <NavItem className='right' onClick={ () => logout() }>退出</NavItem> : <Link to='/login'><NavItem className='right'>登录</NavItem></Link>
+                    }
                     <NavItem className='right'>
                     <span className="iconfont">&#xe636;</span>
                     </NavItem>
@@ -107,6 +113,9 @@ const mapDispatchToProps = (dispatch)=>{
             }else{
                 dispatch(actionCreators.changePage(page+1))
             }
+        },
+        logout: ()=>{
+            dispatch(logout())
         }
     }
 }
@@ -118,7 +127,7 @@ const mapStateToProps = (state)=>{
         page: state.getIn(['header','page']),
         totalPage: state.getIn(['header','totalPage']),
         mouseIn: state.getIn(['header','mouseIn']),
-        
+        login: state.getIn(['login','login'])
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Header)

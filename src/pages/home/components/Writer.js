@@ -1,9 +1,9 @@
-import {react, Component} from "react";
+import {react, PureComponent} from "react";
 import {WriterWrapper, WriterTitle, WriterList, WriterItem} from "../style";
 import {SearchInfoSwitch} from "../../../common/header/style";
 import {connect} from "react-redux";
 
-class Writer extends Component {
+class Writer extends PureComponent {
     render() {
         const {list, handleChangePage} = this.props
         return (

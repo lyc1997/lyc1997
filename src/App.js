@@ -1,23 +1,23 @@
 import Header from './common/header'
 import store from './store'
-import { BrowserRouter, Route, Routes } from'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import {Provider} from 'react-redux'
-import Detail from "./pages/detail";
+import DetailPage from "./pages/detail/loadable";
 import Home from "./pages/home";
+import Login from "./pages/login";
 
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
-          <div>
+          <BrowserRouter>
               <Header/>
-              <BrowserRouter>
-                  <Routes>
-                      <Route path='/' exact element={<Home/>}></Route>
-                      <Route path='/detail' exact element={<Detail/>}></Route>
-                  </Routes>
-              </BrowserRouter>
-          </div>
+              <Routes>
+                  <Route path='/' exact element={<Home/>}></Route>
+                  <Route path='/detail/:id' exact element={<DetailPage/>}></Route>
+                  <Route path='/login' exact element={<Login/>}></Route>
+              </Routes>
+          </BrowserRouter>
       </Provider>
     </div>
   );

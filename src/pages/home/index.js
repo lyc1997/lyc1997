@@ -5,12 +5,26 @@ import Recommend from "./components/Recommend";
 import Writer from "./components/Writer";
 import {HomeLeft, HomeRight, HomeWrapper} from "./style";
 import {connect} from "react-redux";
-import {getInfo} from "./store/actionCreator";
+import {getInfo, toggleTopShow} from "./store/actionCreator";
+import {BackTop} from "./style";
 
 /*
 * 使用immutable管理数据时使用pureComponent可以提高性能，更新store中某数据时，不使用该数据的页面可以不刷新
 * */
 class Home extends PureComponent{
+    handleScrollTop(){
+        let scrollTop = document.documentElement.scrollTop
+        let num = (scrollTop/80).toFixed()
+        console.log(scrollTop)
+        const timer = setInterval(()=>{
+            scrollTop -= num
+            if(scrollTop <= 0){
+                console.log('清除')
+                clearInterval(timer)
+            }
+            window.scrollTo(0,scrollTop)
+        },10)
+    }
     render() {
         return (
             <HomeWrapper>
@@ -23,6 +37,7 @@ class Home extends PureComponent{
                     <Recommend/>
                     <Writer/>
                 </HomeRight>
+                {this.props.showScroll ? <BackTop onClick={this.handleScrollTop}>顶部</BackTop> : null}
             </HomeWrapper>
         )
     }
@@ -31,14 +46,14 @@ class Home extends PureComponent{
         this.bindEvent()
     }
     bindEvent(){
-        window.addEventListener('scroll',this.props.changeScroll())
+        window.addEventListener('scroll',this.props.changeScroll)
     }
     componentWillUnmount() {
-        window.removeEventListener('scroll',this.props.changeScroll())
+        window.removeEventListener('scroll',this.props.changeScroll)
     }
 }
 const mapState = (state=>({
-
+    showScroll: state.getIn(['home', 'showScroll'])
 }))
 
 const mapDispatch = (dispatch=>({
@@ -46,7 +61,11 @@ const mapDispatch = (dispatch=>({
         dispatch(getInfo())
     },
     changeScroll(){
-
+        if(document.documentElement.scrollTop > 400){
+            dispatch(toggleTopShow(true))
+        }else{
+            dispatch(toggleTopShow(false))
+        }
     }
 }))
 
